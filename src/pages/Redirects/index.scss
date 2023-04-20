@@ -1,0 +1,42 @@
+.redirects {
+    &__wrapper {
+        padding-top: 50px;
+    }
+
+    &-title {
+        margin: 10px;
+
+        font-size: 64;
+        font-weight: 500;
+    }
+
+
+    &-active {
+
+        &__wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &-content {}
+
+        &-button {
+            background-color: transparent;
+            color: white;
+        }
+    }
+
+
+}
+
+.form {
+    padding: 40px 0 82px;
+    margin: 0 auto;
+    width: 70%;
+
+    &-button {
+
+        &__wraper {}
+    }
+}

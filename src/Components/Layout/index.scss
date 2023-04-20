@@ -1,0 +1,13 @@
+.layout-menu {
+    width: 200px;
+    max-width: 100%;
+    flex: 0 0 200px;
+    overflow: auto;
+    background: #343f48;
+}
+
+.layout {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+}
