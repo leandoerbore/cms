@@ -37,12 +37,13 @@ const MenuTabs = () => {
     }
 
     const items: MenuItem[] = [
-        getItem('Redirects', '1', <Link href="/Redirects"></Link>),
-        getItem('Documents', '2', <Link href="/"></Link>),
-        getItem('Content', '4', <Link href="/"></Link>),
-        getItem('Partners', '5', <Link href="/"></Link>),
-        getItem('Footer', '6', <Link href="/"></Link>),
-        getItem('Header', '7', <Link href="/"></Link>),
+        getItem('Redirects', '1', <Link href="/redirects"></Link>),
+        getItem('Filemanager', '2', <Link href="/filemanager"></Link>),
+        // getItem('Documents', '3', <Link href="/"></Link>),
+        // getItem('Content', '4', <Link href="/"></Link>),
+        // getItem('Partners', '5', <Link href="/"></Link>),
+        // getItem('Footer', '6', <Link href="/"></Link>),
+        // getItem('Header', '7', <Link href="/"></Link>),
     ]
 
     return (

@@ -1,15 +1,17 @@
-import { Button, Modal, Space, Table } from "antd"
+import { Button, Input, Modal, Space, Table } from "antd"
 import { useCallback, useEffect, useState } from "react"
 import { RedirectType, RedirectWithKey } from "../../types/redirectType"
 import { useUpdateItem } from "@/hooks/useUpdateItem"
 import Link from "next/link"
 import { useDeleteItem } from "@/hooks/useRemoveItem"
+import { searchRedirectDestination, searchRedirectSource } from "@/utils/search"
+import Search from "antd/es/transfer/search"
 
-const Redirects = (
-    // { data }: { data: RedirectType[] }
-) => {
+const Redirects = () => {
     const [redirects, setRedirects] = useState<RedirectWithKey[]>([])
     const [loadTable, setLoadTable] = useState<boolean>(true)
+    const [searchSource, setSearchSource] = useState<string>('')
+    const [searchDestination, setSearchDestination] = useState<string>('')
 
     const columns = [
         {
@@ -51,10 +53,11 @@ const Redirects = (
                             }
                         </Button>
                         <Button type="text">
-                            <Link style={{ backgroundColor: "transparent" }} href={`/Redirects/UpdRedirect/${id}`}>Изменить</Link>
+                            <Link href={`/redirects/updRedirect/${id}`}>Изменить</Link>
                         </Button>
                         <Button type="text" onClick={() => handleClickDel(id)}>
-                            <p style={{ backgroundColor: "transparent" }}>Удалить</p></Button>
+                            <p>Удалить</p>
+                        </Button>
                     </Space>
                 </>
             )
@@ -82,29 +85,31 @@ const Redirects = (
         { fetchData, setLoadTable, endpoint: 'http://localhost:8080/redirects' }
     )
 
+    const sourceSearch = searchRedirectSource(redirects, searchSource)
+    const destSearch = searchRedirectDestination(sourceSearch, searchDestination)
+
     return (
         <div className="redirects__wrapper">
             <Space >
-                <div className="redirects-title">Redirects</div>
-                <Button type="primary">
-                    <Link href="NewRedirect">Создать</Link>
-                </Button>
+                <Space>
+                    <span className="redirects-title">Redirects</span>
+                    <Button type="primary" onClick={(e) => {
+                        e.stopPropagation();
+                    }}>
+                        <Link href="/redirects/newRedirect">Создать</Link>
+                    </Button>
+                </Space>
+                <Space>
+                    <Input name={'source'} placeholder="source" value={searchSource} onChange={(event) => setSearchSource(event.target.value)} />
+                    <Input name={'destination'} placeholder="destination" value={searchDestination} onChange={(event) => setSearchDestination(event.target.value)} />
+                </Space>
             </Space>
-            <Table dataSource={redirects} columns={columns} />
+            <Table dataSource={destSearch} columns={columns} />
             <Modal open={showMoadlDelete} onOk={handleDelete} onCancel={handleCancel}>
                 Вы уверены, что хотите удалить редирект?
             </Modal>
         </div>
     )
 }
-
-// export async function getStaticProps() {
-//     const res = await fetch('http://localhost:8080/redirects')
-//     const data = await res.json()
-
-//     return {
-//         props: { data }
-//     }
-// }
 
 export default Redirects

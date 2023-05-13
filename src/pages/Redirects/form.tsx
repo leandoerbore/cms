@@ -1,5 +1,6 @@
 import { FinishedRedirectValues } from "@/types/redirectType"
-import { Button, Form, FormInstance, Input, Space, Switch } from "antd"
+import { Button, Form, FormInstance, Input, InputNumber, Space, Switch } from "antd"
+import { valueType } from "antd/es/statistic/utils";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,8 +16,19 @@ const RedirectForm = ({
     upd?: boolean;
 }): JSX.Element => {
     const [active, setIsActive] = useState<boolean>(false)
+    const [disable, setDisable] = useState<boolean>(false)
     const setValue = (value: boolean) => {
         setIsActive(value)
+    }
+
+    const checkCode = (value: valueType | null) => {
+        if (typeof (value) === "number") {
+            if (value < 300 || value > 399) {
+                setDisable(true)
+            } else {
+                setDisable(false)
+            }
+        }
     }
 
     return (
@@ -34,7 +46,7 @@ const RedirectForm = ({
 
                 <p className="form-input-title">Статус код</p>
                 <Item name="status_code">
-                    <Input placeholder="302" />
+                    <InputNumber placeholder="302" onChange={value => checkCode(value)} />
                 </Item>
 
                 <p className="form-input-title">Состояние</p>
@@ -49,11 +61,11 @@ const RedirectForm = ({
                 </Item>
 
                 <Space direction="horizontal">
-                    <Button onClick={() => form.submit()}>
-                        <Link href="/Redirects">Сохранить</Link>
+                    <Button disabled={disable} onClick={() => form.submit()}>
+                        <Link href="/redirects">Сохранить</Link>
                     </Button>
                     <Button>
-                        <Link href="/Redirects">Отмена</Link>
+                        <Link href="/redirects">Отмена</Link>
                     </Button>
                 </Space>
             </div>

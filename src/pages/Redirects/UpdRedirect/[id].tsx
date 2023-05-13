@@ -4,9 +4,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from 'react-router-dom';
 import RedirectForm from "../form"
 
-const UpdRedirect = (
-    // { data }: { data: RedirectType }
-) => {
+const UpdRedirect = () => {
     const [redirect, setRedirect] = useState<RedirectType>()
     const [redirectId, setRedirectId] = useState<string | undefined>()
 
@@ -18,7 +16,6 @@ const UpdRedirect = (
         const fetchData = async () => {
             const res = await fetch(`http://localhost:8080/redirects/${id}`)
             const data = await res.json() as RedirectType
-            console.log(data)
             setRedirect(data)
         };
         fetchData();
@@ -52,33 +49,5 @@ const UpdRedirect = (
         </>
     )
 }
-
-// export const getStaticPaths = async () => {
-//     const res = await fetch("http://localhost:8080/redirects")
-//     const data = await res.json() as RedirectType[]
-
-//     const paths = data.map((redirect) => {
-//         params: { id: 16 }
-//     })
-
-//     return {
-//         paths,
-//         fallback: false,
-//     }
-// }
-
-// export const getStaticProps = async (context) => {
-//     const { id } = context.params;
-//     console.log(id)
-
-//     const res = await fetch(`http://localhost:8080/redirects/${id}`)
-//     const data = await res.json() as RedirectType
-
-//     return {
-//         props: {
-//             redirect: data
-//         }
-//     }
-// }
 
 export default UpdRedirect
