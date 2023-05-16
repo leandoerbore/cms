@@ -10,7 +10,6 @@ const Filemanger = () => {
 
     const handlePage = (e: RadioChangeEvent) => {
         setPage(e.target.value)
-        console.log(page)
     }
 
     return (

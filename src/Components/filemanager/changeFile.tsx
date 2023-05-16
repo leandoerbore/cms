@@ -68,7 +68,6 @@ const FolderAction = (
         }
 ) => {
     const [inputValue, setInputValue] = useState<string>(info.title as string)
-    const [value, setValue] = useState<string>(info.value)
     useEffect(() => {
         setInputValue(info.title as string)
     }, [info])
@@ -79,12 +78,21 @@ const FolderAction = (
             new: info.value.slice(0, info.value.length - (info.title as string).length) + inputValue
         }
 
-        console.log(body)
         const res = await fetch(`${filemanager}/dir/rename`, {
             method: 'POST',
             body: JSON.stringify(body)
         })
         fetchData()
+    }
+
+    const handleFolderLocation = (path: string): string => {
+        const split = path.split('/')
+        if (split.length > 1) {
+            path = split.slice(0, split.length - 1).join('/')
+            return path
+        } else {
+            return path
+        }
     }
 
     return (
@@ -98,7 +106,7 @@ const FolderAction = (
                 />
                 <Button onClick={
                     () => {
-                        setFolderLocation(inputValue) // 
+                        setFolderLocation(info.value)
                         setShowModal(true)
                     }
                 }>Создать дирректорию</Button>
@@ -140,7 +148,7 @@ const ChangeFile = () => {
     ): TreeType[] => {
 
         return data.map(({ name, files, subDirs }) => {
-            const trimName = name.trim()
+            const trimName = name.trim();
             const value = parentValue ? `${parentValue}/${trimName}` : trimName;
             const formattedFiles = files ? fileFormatter(files, value) : []
             const formattedFolders = treeFormatter(subDirs, value)
@@ -159,10 +167,6 @@ const ChangeFile = () => {
 
     const fileFormatter = (files: string[], parentValue: string): TreeType[] => {
         return files.map((currentFile) => {
-            console.log(`${parentValue}/${currentFile.trim()}`.slice(
-                0,
-                `${parentValue}/${currentFile.trim()}`.length - currentFile.trim().length,
-            ))
             return {
                 title: currentFile.trim(),
                 isLeaf: true,
