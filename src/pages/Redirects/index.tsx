@@ -47,9 +47,9 @@ const Redirects = () => {
                             }}
                         >
                             {!is_active ?
-                                (<p className="redirects-active-button">Скрыть</p>)
+                                (<p className="redirects-active-button">СКРЫТО</p>)
                                 :
-                                (<p className="redirects-active-button">Показывать</p>)
+                                (<p className="redirects-active-button">АКТИВНО</p>)
                             }
                         </Button>
                         <Button type="text">

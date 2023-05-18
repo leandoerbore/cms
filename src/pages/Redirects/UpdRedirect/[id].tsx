@@ -44,7 +44,7 @@ const UpdRedirect = () => {
     return (
         <>
             <div>
-                <RedirectForm onFinish={onFinish} form={form}></RedirectForm>
+                <RedirectForm onFinish={onFinish} form={form} state={redirect && (redirect.is_active ? true : false)}></RedirectForm>
             </div>
         </>
     )

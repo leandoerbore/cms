@@ -1,29 +1,31 @@
 import { FinishedRedirectValues } from "@/types/redirectType"
-import { Button, Form, FormInstance, Input, InputNumber, Space, Switch } from "antd"
+import { Button, Form, FormInstance, Input, InputNumber, Space, Switch, message } from "antd"
 import { valueType } from "antd/es/statistic/utils";
+import { stat } from "fs";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const { Item } = Form
 
 const RedirectForm = ({
     onFinish,
     form,
-    upd
+    state = false,
 }: {
     onFinish: (values: FinishedRedirectValues) => Promise<void>,
     form: FormInstance<any>,
-    upd?: boolean;
+    state?: boolean,
 }): JSX.Element => {
-    const [active, setIsActive] = useState<boolean>(false)
+    const [active, setIsActive] = useState<boolean>(state)
+    useEffect(() => {
+        setIsActive(state)
+    }, [state])
     const [disable, setDisable] = useState<boolean>(false)
-    const setValue = (value: boolean) => {
-        setIsActive(value)
-    }
 
     const checkCode = (value: valueType | null) => {
         if (typeof (value) === "number") {
-            if (value < 300 || value > 399) {
+            if (value < 300 || value > 308) {
+                message.error('Введите код от 300 до 308')
                 setDisable(true)
             } else {
                 setDisable(false)
@@ -52,12 +54,8 @@ const RedirectForm = ({
                 <p className="form-input-title">Состояние</p>
                 <Item
                     name="is_active"
-                    getValueProps={(value) => {
-                        setValue(value)
-                        return {}
-                    }}
                 >
-                    <Switch defaultChecked={active ? true : false} />
+                    <Switch onClick={() => setIsActive(!active)} checked={active} />
                 </Item>
 
                 <Space direction="horizontal">

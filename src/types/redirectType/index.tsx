@@ -8,7 +8,7 @@ export interface RedirectType {
     source: string;
     destination: string;
     status_code: string;
-    is_active: string;
+    is_active: boolean;
 }
 
 export interface FinishedRedirectValues {
